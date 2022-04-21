@@ -20,7 +20,6 @@ DEALINGS IN THE SOFTWARE.
 
 import csv
 import praw
-import praw
 import time
 from credentials import credentials
 from datetime import datetime
@@ -93,7 +92,6 @@ class Redusers():
 			for item in readFile:
 				writer.writerow(item)
 
-
 	def ratelim(self, string):
 		lst = string.split(" ")
 		kek = int(lst[13])
@@ -117,8 +115,10 @@ class Redusers():
 
 	def bulk(self, subreddit, userFile, limit):
 
-		try: self.loadcsv()
-		except: self.savecsv()
+		try: self.loadcsv(userFile)
+		except: 
+			with open(userFile, 'w') as file:
+				pass
 
 		reddit = self.login()
 
