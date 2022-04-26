@@ -3,7 +3,8 @@ from redusers import Redusers
 client = Redusers()
 
 # to get userlist from existing subs
-client.bulk('DesiMeta', 'data.csv', 1000)
+client.bulk('DesiMeta', 'data.csv', 4000)
+client.bulk('indiaspeaks', 'data.csv', 4000)
 
 # to invite  from the given file
 # client.invite('data.csv')
