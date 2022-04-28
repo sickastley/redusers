@@ -8,6 +8,8 @@ client.bulk('indiaspeaks', 'data.csv', 1500)
 client.bulk('rwingnat', 'data.csv', 1500)
 client.bulk('Sham_Sharma_Show', 'data.csv', 1500)
 
+# client.bulk('librandu', 'librandu.csv', 5000)
+
 # to invite  from the given file
 # client.invite('data.csv')
 
