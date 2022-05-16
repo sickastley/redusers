@@ -27,20 +27,41 @@ from datetime import datetime
 class Redusers():
 
 	def __init__(self):
-		pass
+
+		client_id = credentials['client_id']
+		client_secret = credentials['client_secret']
+		username = credentials['username']
+		password = credentials['password']
+
+		reddit = praw.Reddit(client_id = client_id, 
+			client_secret = client_secret,
+			user_agent = "For INDIA",
+			username = username,
+			password = password)
+
+		self.reddit = reddit
+
+		self.title = 'la ilah illa modiji. ass on the roof rasul allah modiji'
+		self.msg = 'future belongs to those who trust in clean energy and water management, not those who run behind packages of cse and havent written of single line of true code in their life.' 
 
 	def loadcsv(self, userFile):
 
 		readFile = []
 
-		with open(userFile, 'r') as file:
+		try: 
+			with open(userFile, 'r') as file:
 
-			csv1 = csv.reader(file)
+				csv1 = csv.reader(file)
 
-			for item in csv1:
-				readFile.append(item)
+				for item in csv1:
+					readFile.append(item)
 
 			return readFile
+
+		except:
+			with open(userFile, 'w') as file:
+				pass
+			self.loadcsv(userFile)
 
 	def savecsv(self, data, userFile):
 
@@ -98,29 +119,11 @@ class Redusers():
 
 		return kek
 
-	def login(self):
-
-		client_id = credentials['client_id']
-		client_secret = credentials['client_secret']
-		username = credentials['username']
-		password = credentials['password']
-
-		reddit = praw.Reddit(client_id = client_id, 
-			client_secret = client_secret,
-			user_agent = "For INDIA",
-			username = username,
-			password = password)
-
-		return reddit
-
 	def bulk(self, subreddit, userFile, limit):
 
-		try: self.loadcsv(userFile)
-		except: 
-			with open(userFile, 'w') as file:
-				pass
+		self.loadcsv(userFile)
 
-		reddit = self.login()
+		reddit = self.reddit
 
 		comments = reddit.subreddit(subreddit).comments(limit=limit)
 
@@ -132,13 +135,10 @@ class Redusers():
 
 	def invite(self, userFile):
 
-		reddit = self.login()
-
-		title = 'test'
-
-		string = '''test'''
-
+		reddit = self.reddit
 		data = self.loadcsv(userFile)
+		title = self.title
+		msg = self.msg
 
 		for item in data:
 
@@ -146,7 +146,7 @@ class Redusers():
 				user = item[0]
 
 				try:
-					reddit.redditor(user).message(title, string)
+					reddit.redditor(user).message(title, msg)
 					t = str(datetime.now())
 					t = t[:-6]
 					print(f"{t} User: {user}, Status: Success")
@@ -164,7 +164,7 @@ class Redusers():
 							print(f"{t} User: {user}, Status: Failed, Reason: Not Whitelisted.")
 
 						elif subexception.error_type == "RATELIMIT":
-							kek = ratelim(str(subexception))
+							kek = self.ratelim(str(subexception))
 							kekinsecs = (kek * 60) + 15
 							print(f"{t} Ratelimited for {kek} minutes, sleeping for {kekinsecs} seconds...")
 							time.sleep(kekinsecs)
@@ -192,7 +192,6 @@ class Redusers():
 		newFile = self.loadcsv(new)
 
 		for item in oldFile:
-
 			user = item[0]
 
 			if not self.userInCsv(user, new):
@@ -200,3 +199,9 @@ class Redusers():
 
 			else:
 				self.changeBool(user, new, value)
+
+
+
+
+
+		
