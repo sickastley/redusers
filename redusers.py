@@ -21,17 +21,23 @@ DEALINGS IN THE SOFTWARE.
 import csv
 import praw
 import time
-from credentials import credentials
+import json
+import random
+from credentials import userDict
 from datetime import datetime
 
 class Redusers():
 
-	def __init__(self):
+	def __init__(self, botAccountID):
 
-		client_id = credentials['client_id']
-		client_secret = credentials['client_secret']
-		username = credentials['username']
-		password = credentials['password']
+		try:
+			client_id = userDict[botAccountID]['client_id']
+			client_secret = userDict[botAccountID]['client_secret']
+			username = userDict[botAccountID]['username']
+			password = userDict[botAccountID]['password']
+		except:
+			print('bot account not found in credentials. leaving.')
+			return
 
 		reddit = praw.Reddit(client_id = client_id, 
 			client_secret = client_secret,
@@ -41,27 +47,21 @@ class Redusers():
 
 		self.reddit = reddit
 
-		self.title = 'la ilah illa modiji. ass on the roof rasul allah modiji'
-		self.msg = 'future belongs to those who trust in clean energy and water management, not those who run behind packages of cse and havent written of single line of true code in their life.' 
+		with open ('message.json', 'r') as file:
+			self.msgList = json.load(file)
 
 	def loadcsv(self, userFile):
 
 		readFile = []
 
-		try: 
-			with open(userFile, 'r') as file:
+		with open(userFile, 'r') as file:
 
-				csv1 = csv.reader(file)
+			csv1 = csv.reader(file)
 
-				for item in csv1:
-					readFile.append(item)
+			for item in csv1:
+				readFile.append(item)
 
-			return readFile
-
-		except:
-			with open(userFile, 'w') as file:
-				pass
-			self.loadcsv(userFile)
+		return readFile
 
 	def savecsv(self, data, userFile):
 
@@ -69,6 +69,14 @@ class Redusers():
 
 			writer = csv.writer(file)
 			for item in data:
+				writer.writerow(item)
+
+	def rewritecsv(self, userList, userFile):
+
+		with open(userFile, "w", newline = '') as file:
+
+			writer = csv.writer(file)
+			for item in userList:
 				writer.writerow(item)
 
 	def userInCsv(self, user, userFile):
@@ -137,10 +145,12 @@ class Redusers():
 
 		reddit = self.reddit
 		data = self.loadcsv(userFile)
-		title = self.title
-		msg = self.msg
+
+		msgList = self.msgList
 
 		for item in data:
+
+			title, msg = random.choice(list(msgList.items()))
 
 			if item[1] == "False":
 				user = item[0]
@@ -199,6 +209,33 @@ class Redusers():
 
 			else:
 				self.changeBool(user, new, value)
+
+	def broom(self, userFile, kachraFile):
+		userList = self.loadcsv(userFile) 
+		kachraList = self.loadcsv(kachraFile)
+
+		for i in kachraList:
+			for j in userList:
+				if i == j:
+					userList.remove(i)
+		
+		self.rewritecsv(userList, userFile)
+
+	def isKachra(self, userFile, kachraFile):
+		userList = self.loadcsv(userFile) 
+		kachraList = self.loadcsv(kachraFile)
+
+		count = 0
+
+		for i in kachraList:
+			for j in userList:
+				if i == j:
+					count += 1
+
+		print(f'{count} matches found.')
+		
+		self.rewritecsv(userList, userFile)
+
 
 
 
