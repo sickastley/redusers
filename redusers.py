@@ -218,7 +218,7 @@ class Redusers():
 			for j in userList:
 				if i == j:
 					userList.remove(i)
-		
+
 		self.rewritecsv(userList, userFile)
 
 	def isKachra(self, userFile, kachraFile):
