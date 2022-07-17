@@ -6,6 +6,7 @@ client.bulk('indiaspeaks', './data/right.csv', 20000)
 client.bulk('DesiMemeCentral', './data/right.csv', 20000)
 client.bulk('Sham_Sharma_Show', './data/right.csv', 20000)
 client.bulk('KarmaBhumi', './data/right.csv', 20000)
+client.bulk('indiadiscussion', './data/right.csv', 20000)
 
 
 client.bulk('librandu', './data/left.csv', 20000)
