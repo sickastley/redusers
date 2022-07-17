@@ -7,6 +7,12 @@ client.bulk('DesiMemeCentral', './data/right.csv', 20000)
 client.bulk('Sham_Sharma_Show', './data/right.csv', 20000)
 client.bulk('KarmaBhumi', './data/right.csv', 20000)
 client.bulk('indiadiscussion', './data/right.csv', 20000)
+client.bulk('againsthinduphobia', './data/right.csv', 20000)
+client.bulk('BharatasyaItihaas', './data/right.csv', 20000)
+client.bulk('Hindutvarises', './data/right.csv', 20000)
+client.bulk('indianews', './data/right.csv', 20000)
+client.bulk('politicalhinduism', './data/right.csv', 20000)
+client.bulk('Bhagwa_Feminism', './data/right.csv', 20000)
 
 
 client.bulk('librandu', './data/left.csv', 20000)
