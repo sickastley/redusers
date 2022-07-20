@@ -13,7 +13,7 @@ client.bulk('Hindutvarises', './data/right.csv', 20000)
 client.bulk('indianews', './data/right.csv', 20000)
 client.bulk('politicalhinduism', './data/right.csv', 20000)
 client.bulk('Bhagwa_Feminism', './data/right.csv', 20000)
-
+client.bulk('Bharat_Verse', './data/right.csv', 20000)
 
 client.bulk('librandu', './data/left.csv', 20000)
 client.bulk('india', './data/left.csv', 20000)
