@@ -128,7 +128,7 @@ class Redusers():
 		return kek
 
 	def bulk(self, subreddit, userFile, limit):
-
+		print(f"Scanning in {subreddit}...")
 		self.loadcsv(userFile)
 
 		reddit = self.reddit
@@ -137,7 +137,6 @@ class Redusers():
 
 		for comment in comments:
 			user = str(comment.author)
-			print(user)
 			if not self.userInCsv(user, userFile):
 				self.addUser(user, userFile, 'False')
 
